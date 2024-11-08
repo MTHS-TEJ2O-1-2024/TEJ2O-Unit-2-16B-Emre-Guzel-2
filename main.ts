@@ -16,11 +16,18 @@ radio.setGroup(13)
 // Setting the distance for sonar in while loop
 while (true) {
     basic.clearScreen()
-        disanceTobjct = sonar.ping(
+    disanceTobjct = sonar.ping(
             DigitalPin.P1,
             DigitalPin.P2,
             PingUnit.Centimeters
         )
+        basic.showNumber(disanceTobjct)
+        // Setting the  radio 
+        radio.onReceivedBuffer(function (resvieNumber) {
+            if (disanceTobjct < 10) {
+                basic.clearScreen()
+                basic.showString("Too close ")
+                basic.showNumber(disanceTobjct)
+            }
+        })
     }
-
-
