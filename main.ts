@@ -1,33 +1,31 @@
-/* Copyright (c) 2020 MTHS All rights reserved
- *
- * Created by: Emre Guzel
- * Created on: Nov 7 2024
- * This program sends massege and recvies maeesage from microbit 
-*/
-// Setting the varivles
-let disanceTobjct:number = 0
+// Copyright (c) 2020 MTHS All rights reserved
+// Created by: Emre Guzel
+// Created on: Nov 2024
+// This program sends radio messages to another micro:bit
 
-// Setting the screen 
+
+// Setting the variables
+let distance: number = 0
+
+// Setting the screen
 basic.clearScreen()
 basic.showIcon(IconNames.Happy)
-// Setting the radio 
+
+// Setting the radio group
 radio.setGroup(13)
 
-// Setting the distance for sonar in while loop
+// Event handler for receiving a Number over radio
+radio.onReceivedNumber(function(receivedNumber: number) {
+   distance = receivedNumber
+})
+
+// Main loop for checking the distance
 while (true) {
-    basic.clearScreen()
-    disanceTobjct = sonar.ping(
-            DigitalPin.P1,
-            DigitalPin.P2,
-            PingUnit.Centimeters
-        )
-        basic.showNumber(disanceTobjct)
-        // Setting the  radio 
-        radio.onReceivedBuffer(function (resvieNumber) {
-            if (disanceTobjct < 10) {
-                basic.clearScreen()
-                basic.showString("Too close ")
-                basic.showNumber(disanceTobjct)
-            }
-        })
+   basic.clearScreen()
+    if (distance >= 10) {
+        basic.showIcon(IconNames.Happy)
     }
+    else if (distance < 10) {
+        basic.showString("Too close")
+    }
+}
